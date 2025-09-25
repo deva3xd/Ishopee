@@ -9,8 +9,10 @@ class Product extends Model
     protected $fillable = [
         'profile_id',
         'name',
+        'description',
         'category',
-        'price'
+        'price',
+        'image',
     ];
 
     public function profile()
