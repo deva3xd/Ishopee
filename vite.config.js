@@ -7,9 +7,4 @@ export default defineConfig({
         input: 'resources/js/app.jsx',
         refresh: true,
     }), react()],
-    resolve: {
-        alias: {
-            '@': "/resources/js",
-        }
-    }
 });
