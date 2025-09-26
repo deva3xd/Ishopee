@@ -8,6 +8,7 @@ class Product extends Model
 {
     protected $fillable = [
         'profile_id',
+        'category_id',
         'name',
         'description',
         'category',
@@ -23,5 +24,10 @@ class Product extends Model
     public function orderItem()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id');
     }
 }
