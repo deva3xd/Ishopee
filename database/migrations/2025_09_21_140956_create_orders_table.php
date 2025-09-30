@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->date('date')->nullable();
-            $table->enum('payment_status', ['pending', 'paid', 'failed'])->default('pending');
+            $table->enum('status', ['cart', 'pending', 'paid', 'cancelled'])->default('cart');
             $table->integer('total_price');
             $table->string('shipping_name');
             $table->string('shipping_address');
