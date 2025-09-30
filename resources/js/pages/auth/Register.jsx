@@ -7,18 +7,17 @@ const Register = () => {
   const { data, setData, post, errors } = useForm({
     username: '',
     email: '',
-    password: '',
-    role: 'buyer'
+    password: ''
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     post(route('register.store'));
-  }
+  };
 
   return (
-    <AuthLayout title="Login">
+    <AuthLayout title="Register">
       <h1 className="fixed top-16 left-0 text-primary font-semibold flex justify-center w-full text-4xl">ishopee</h1>
       <div className="flex h-screen text-black">
         <div className="flex justify-center items-center w-1/2 p-28">
@@ -27,8 +26,8 @@ const Register = () => {
         <div className="flex justify-center items-center w-1/2 p-28">
           <div className="w-full">
             <div className="flex flex-col justify-center items-center mb-4">
-              <h2 className="text-3xl font-medium">REGISTER</h2>
-              <h2 className="text-xs font-light">Already have an account? <Link href={route('login')} className="hover:underline">Login</Link></h2>
+              <h2 className="text-4xl font-bold">REGISTER</h2>
+              <h2 className="text-xs font-light">Already have an account? <Link href={route('login')} className="hover:underline text-primary">Login</Link></h2>
             </div>
             <form onSubmit={handleSubmit}>
               <fieldset className="fieldset pb-2">
@@ -55,4 +54,4 @@ const Register = () => {
   )
 }
 
-export default Register
+export default Register;

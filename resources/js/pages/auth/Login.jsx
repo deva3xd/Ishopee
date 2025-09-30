@@ -13,7 +13,7 @@ const Login = () => {
     e.preventDefault();
 
     post(route('login.store'));
-  }
+  };
 
   return (
     <AuthLayout title="Login">
@@ -25,10 +25,10 @@ const Login = () => {
         <div className="flex justify-center items-center w-1/2 p-28">
           <div className="w-full">
             <div className="flex flex-col justify-center items-center mb-4">
-              <h2 className="text-3xl font-medium">LOGIN</h2>
-              <h2 className="text-xs font-light">Don't have an account? <Link href={route('register')} className="hover:underline">Register</Link></h2>
+              <h2 className="text-4xl font-bold">LOGIN</h2>
+              <h2 className="text-xs font-light">Don't have an account? <Link href={route('register')} className="hover:underline text-primary">Register</Link></h2>
             </div>
-            <form>
+            <form onSubmit={handleSubmit}>
               <fieldset className="fieldset pb-2">
                 <legend className="fieldset-legend py-0 font-light">email</legend>
                 <input type="email" id="email" name="email" value={data.email} onChange={(e) => setData("email", e.target.value)} className="input w-full border-x-0 border-t-0 border-b rounded-none px-0 focus-within:outline-none focus-within:border-b-black" required />

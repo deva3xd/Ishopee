@@ -14,6 +14,29 @@ class AuthController extends Controller
         return Inertia::render('auth/Login');
     }
 
+    public function loginStore(Request $request)
+    {
+        $validate = $request->validate([
+            'email' => 'required|string|lowercase|email|max:255',
+            'password' => 'required|min:8',
+        ]);
+
+        if (Auth::attempt($validate)) {
+            $request->session()->regenerate();
+
+            if (Auth::user()->role !== 'buyer') {
+                return back()->withErrors([
+                    'email' => 'Incorrect email or password.',
+                ])->onlyInput('email');
+            }
+            return redirect()->intended('/');
+        }
+
+        return back()->withErrors([
+            'email' => 'Incorrect email or password.',
+        ])->onlyInput('email');
+    }
+
     public function register()
     {
         return Inertia::render('auth/Register');
@@ -25,14 +48,15 @@ class AuthController extends Controller
             'username' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => 'required|min:8',
-            'role' => 'required|in:buyer,seller,admin'
+            'role' => 'nullable|in:buyer,seller,admin'
         ]);
+        $validate['role'] = $validate['role'] ?? 'buyer';
         User::create($validate);
 
         return redirect()->route('login')->with('success', 'Data Added');
     }
 
-    public function logout()
+    public function destroy()
     {
         Auth::logout();
         session()->flush();
