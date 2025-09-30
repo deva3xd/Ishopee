@@ -1,61 +1,64 @@
-import { Link } from "@inertiajs/react";
+import { useState } from "react";
+import { useForm } from "@inertiajs/react";
 import MainLayout from "../layouts/MainLayout";
-import useEmblaCarousel from 'embla-carousel-react';
-import { Star } from "lucide-react";
+import ProductCard from "../components/ProductCard";
+// import useEmblaCarousel from 'embla-carousel-react';
 
-const Home = () => {
-  const [emblaRef] = useEmblaCarousel();
+const Home = ({ products, categories }) => {
+  // const [emblaRef] = useEmblaCarousel();
+  const [isActive, setIsActive] = useState('all');
+  const [alert, setAlert] = useState(false);
+  const filteredProducts = isActive === "all" ? products : products.filter((p) => p.category.name === isActive);
+  const { data, post } = useForm({
+    product_id: "",
+    quantity: "",
+  });
+
+  const handleCart = (product) => {
+    setAlert(true);
+
+    setTimeout(() => setAlert(false), 3000);
+    post(route("cart.store"), {
+      onSuccess: () => {
+        data({
+          product_id: product.id,
+          amount: 1,
+        });
+        // setTimeout(() => setAlert(false), 3000);
+      },
+    });
+  }
 
   return (
     <MainLayout title="Home">
-      {/* category */}
-      <div className="pb-12">
-        <span className="text-primary font-medium text-xl">Category</span>
-        <div className="grid grid-cols-6 gap-4">
-          <div className="card bg-base-100 w-44 shadow-sm border-2 rounded-sm p-1">
-            <figure className="rounded-sm">
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="Shoes"
-                className="h-44" />
-            </figure>
-            <div className="card-body px-0 py-1">
-              <h2 className="card-title">Card Title</h2>
-            </div>
-          </div>
+      <div className="p-4 mb-2 bg-white">
+        <div className="w-full border-b-2 border-primary">
+          <h2 className="text-primary font-medium text-xl">Product</h2>
+        </div>
+        <div className="font-medium text-sm flex items-center gap-1 my-2">
+          <span className="text-primary">Category:</span>
+          {[{ id: 0, name: "all" }, ...categories].map((category) => (
+            <button onClick={() => setIsActive(category.name)} key={category.id} className={`py-1 px-2 border border-primary rounded-sm hover:bg-primary hover:text-white capitalize ${isActive == category.name ? 'bg-primary text-white' : 'bg-white text-primary'}`}>{category.name}</button>
+          ))}
+        </div>
+        <div className="grid grid-cols-5 gap-1">
+          <ProductCard products={filteredProducts} cart={handleCart} />
         </div>
       </div>
-      {/* category end */}
-
-      {/* product */}
-      <div className="pb-12">
-        <span className="text-primary font-medium text-xl">All Product</span>
-        <div className="overflow-hidden" ref={emblaRef}>
-          <div className="flex gap-3">
-            <div className="card bg-base-100 w-52 shadow-sm flex-shrink-0 border-2 hover:border-primary rounded-sm p-1">
-              <figure className="rounded-sm">
-                <img
-                  src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                  alt="Shoes"
-                  className="h-52" />
-              </figure>
-              <div className="card-body px-0 py-1">
-                <h2 className="card-title">Card Title</h2>
-                <h3 className="card-title text-sm font-normal">Man Clothing</h3>
-                <div className="flex justify-between items-center text-primary">
-                  <span className="font-bold">$12.00</span>
-                  <span className="flex items-center gap-1">
-                    <Star size={18} className="fill-primary stroke-none" /><span className="font-bold text-sm">3.00</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
+      {alert && (
+        <div role="alert" className="alert border border-black fixed bottom-5 right-5">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>Product Added to Cart</span>
         </div>
-      </div>
-      {/* product end */}
+      )}
     </MainLayout>
   )
 }
+{/* <div className="overflow-hidden" ref={emblaRef}>
+<div className="flex gap-3">
+  <ProductCard products={products} />
+</div> */}
 
 export default Home;

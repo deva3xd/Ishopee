@@ -12,6 +12,7 @@ class HomeController extends Controller
     {
         $products = Product::with(['profile', 'category'])->get();
         $categories = Category::all();
+        
         return Inertia::render('Home', ['products' => $products, 'categories' => $categories]);
     }
 }

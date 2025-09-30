@@ -25,7 +25,7 @@ const Footer = () => {
           </nav>
         </div>
       </div>
-      <div className="flex justify-center bg-white max-w-screen-xl mx-auto">aaa</div>
+      <div className="flex justify-center max-w-screen-xl mx-auto">Footer</div>
     </footer>
   )
 }

@@ -1,7 +1,13 @@
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { ShoppingCart } from "lucide-react";
 
 const Navbar = () => {
+  const handleClick = (e) => {
+    e.preventDefault();
+
+    router.post(route("logout"));
+  }
+
   return (
     <div className="shadow-sm bg-primary w-screen fixed top-0 z-50">
       <div className="max-w-screen-xl mx-auto navbar p-4">
@@ -64,7 +70,9 @@ const Navbar = () => {
                 </a>
               </li>
               <li><a>Settings</a></li>
-              <li><a>Logout</a></li>
+              <li>
+                <button onClick={handleClick}>Logout</button>
+              </li>
             </ul>
           </div>
         </div>
