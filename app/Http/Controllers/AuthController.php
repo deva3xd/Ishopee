@@ -23,13 +23,13 @@ class AuthController extends Controller
 
         if (Auth::attempt($validate)) {
             $request->session()->regenerate();
+            $user = Auth::user();
 
-            if (Auth::user()->role !== 'buyer') {
-                return back()->withErrors([
-                    'email' => 'Incorrect email or password.',
-                ])->onlyInput('email');
+            if ($user->role === 'buyer') {
+                return redirect()->route('home');
+            } else {
+                return redirect()->route('cart');
             }
-            return redirect()->intended('/');
         }
 
         return back()->withErrors([

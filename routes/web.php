@@ -12,10 +12,12 @@ Route::middleware('guest')->group(function () {
   Route::post('/register', [AuthController::class, 'registerStore'])->name('register.store');
 });
 
-Route::middleware('auth')->group(function () {
-  Route::redirect('/', '/home');
-  Route::get('/home', [HomeController::class, 'index'])->name('home');
-  Route::post('/{product}', [CartController::class, 'store'])->name('cart.store');
-});
+Route::redirect('/', '/home');
+Route::get('/home', HomeController::class)->name('home');
 
-Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
+Route::middleware('auth')->group(function () {
+  Route::post('/cart/{product}', [CartController::class, 'store'])->name('cart.store');
+  Route::get('/cart', [CartController::class, 'index'])->name('cart');
+  
+  Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
+});

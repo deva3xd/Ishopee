@@ -8,7 +8,7 @@ use App\Models\Product;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function __invoke()
     {
         $products = Product::with(['profile', 'category'])->get();
         $categories = Category::all();
