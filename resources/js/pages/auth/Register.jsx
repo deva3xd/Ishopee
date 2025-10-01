@@ -2,6 +2,7 @@ import Lottie from "lottie-react";
 import AuthLayout from "@/layouts/AuthLayout";
 import RegisterGif from "@/animations/register";
 import { Link, useForm } from "@inertiajs/react";
+import { ChevronLeft } from "lucide-react";
 
 const Register = () => {
   const { data, setData, post, errors } = useForm({
@@ -47,6 +48,7 @@ const Register = () => {
               </fieldset>
               <button className="btn text-white bg-primary hover:brightness-95 w-full mt-4">SUBMIT</button>
             </form>
+            <Link href={route('home')} className="flex items-center hover:underline text-gray-600 text-sm mt-2 w-1/4"><ChevronLeft size={20} />Homepage</Link>
           </div>
         </div>
       </div>
