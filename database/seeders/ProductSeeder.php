@@ -18,7 +18,7 @@ class ProductSeeder extends Seeder
     {
         $res = Http::get('https://fakestoreapi.com/products');
         $products = $res->json();
-        $sellers = User::where('role', 'seller')->pluck('id')->toArray();
+        $seller = User::where('role', 'seller')->pluck('id')->toArray();
 
         foreach ($products as $product) {
             $category = Category::firstOrCreate(
@@ -27,12 +27,12 @@ class ProductSeeder extends Seeder
             );
 
             Product::create([
+                'profile_id' => $seller[array_rand($seller)], 
+                'category_id' => $category->id,  
                 'name' => $product['title'],
                 'description' => $product['description'],
                 'price' => $product['price'],
                 'image' => $product['image'],
-                'category_id' => $category->id,  
-                'profile_id' => $sellers[array_rand($sellers)], 
             ]);
         }
     }

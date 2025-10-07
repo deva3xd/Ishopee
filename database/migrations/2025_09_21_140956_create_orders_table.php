@@ -14,13 +14,12 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->date('date')->nullable();
             $table->enum('status', ['cart', 'pending', 'paid', 'cancelled'])->default('cart');
             $table->integer('total_price');
-            $table->string('shipping_name');
-            $table->string('shipping_address');
-            $table->string('shipping_phone');
-            $table->string('payment_method');
+            $table->string('shipping_name')->nullable();
+            $table->string('shipping_address')->nullable();
+            $table->string('shipping_phone')->nullable();
+            $table->string('payment_method')->nullable();
             $table->timestamps();
         });
     }
