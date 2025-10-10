@@ -16,8 +16,8 @@ Route::redirect('/', '/home');
 Route::get('/home', HomeController::class)->name('home');
 
 Route::middleware('auth')->group(function () {
-  Route::post('/cart/{product}', [CartController::class, 'store'])->name('cart.store');
   Route::get('/cart', [CartController::class, 'index'])->name('cart');
+  Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
   
   Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
 });
