@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\User;
+use App\Events\UserRegistered;
 
 class AuthController extends Controller
 {
@@ -48,10 +49,9 @@ class AuthController extends Controller
             'username' => 'required|string|max:255',
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => 'required|min:8',
-            'role' => 'nullable|in:buyer,seller,admin'
         ]);
-        $validate['role'] = $validate['role'] ?? 'buyer';
-        User::create($validate);
+        $user  = User::create($validate);
+        event(new UserRegistered($user));
 
         return redirect()->route('login')->with('success', 'Data Added');
     }
