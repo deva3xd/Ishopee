@@ -37,25 +37,12 @@ const Navbar = () => {
         <div className="flex gap-2">
           {auth.user ? (
             <>
-              <div className="dropdown dropdown-end">
-                <div tabIndex={0} role="button" className="btn btn-ghost btn-circle hover:bg-black border-none">
-                  <div className="indicator">
-                    <ShoppingCart color="#ffffff" />
-                    <span className="badge badge-sm indicator-item">8</span>
-                  </div>
+              <Link href={route('cart')} className="btn btn-ghost btn-circle hover:bg-black border-none">
+                <div className="indicator">
+                  <ShoppingCart color="#ffffff" />
+                  <span className="badge badge-sm indicator-item">8</span>
                 </div>
-                <div
-                  tabIndex={0}
-                  className="card card-compact dropdown-content bg-base-100 z-1 mt-3 w-52 shadow">
-                  <div className="card-body">
-                    <span className="text-lg font-bold">8 Items</span>
-                    <span className="text-info">Subtotal: $999</span>
-                    <div className="card-actions">
-                      <button className="btn btn-primary btn-block">View cart</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              </Link>
               <div className="dropdown dropdown-end">
                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                   <div className="w-10 rounded-full">
@@ -70,10 +57,8 @@ const Navbar = () => {
                   <li>
                     <Link className="justify-between">
                       Profile
-                      <span className="badge">New</span>
                     </Link>
                   </li>
-                  <li><Link>Settings</Link></li>
                   <li>
                     <button onClick={handleClick}>Logout</button>
                   </li>
