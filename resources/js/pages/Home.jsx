@@ -1,32 +1,17 @@
 import { useState } from "react";
-import { useForm } from "@inertiajs/react";
 import MainLayout from "../layouts/MainLayout";
 import ProductCard from "../components/ProductCard";
 // import useEmblaCarousel from 'embla-carousel-react';
 
-const Home = ({ products, categories }) => {
+const Home = ({ products, categories, carts }) => {
   // const [emblaRef] = useEmblaCarousel();
   const [isActive, setIsActive] = useState('all');
   const [alert, setAlert] = useState(false);
   const filteredProducts = isActive === "all" ? products : products.filter((p) => p.category.name === isActive);
-  const { data, post } = useForm({
-    product_id: "",
-    quantity: "",
-  });
 
-  const handleCart = (product) => {
+  const handleCartAlert = () => {
     setAlert(true);
-
     setTimeout(() => setAlert(false), 3000);
-    post(route("cart.store"), {
-      onSuccess: () => {
-        data({
-          product_id: product.id,
-          amount: 1,
-        });
-        // setTimeout(() => setAlert(false), 3000);
-      },
-    });
   }
 
   return (
@@ -42,7 +27,7 @@ const Home = ({ products, categories }) => {
           ))}
         </div>
         <div className="grid grid-cols-5 gap-1">
-          <ProductCard products={filteredProducts} cart={handleCart} />
+          <ProductCard products={filteredProducts} cartAlert={handleCartAlert} carts={carts} />
         </div>
       </div>
       {alert && (

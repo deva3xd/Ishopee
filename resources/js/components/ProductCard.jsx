@@ -1,30 +1,27 @@
-import { useState, useEffect } from "react";
-import { usePage } from "@inertiajs/react";
-import { ShoppingCart } from "lucide-react";
-import { Store } from "lucide-react";
-import Modal from "../components/Modal";
+import { useForm, usePage } from "@inertiajs/react";
+import { ShoppingCart, Store } from "lucide-react";
+import { useEffect } from "react";
 
-const ProductCard = ({ products, cart }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectItem, setSelectItem] = useState('');
+const ProductCard = ({ products, carts, cartAlert }) => {
   const { auth } = usePage().props;
+  const { data, setData, post } = useForm({
+    product_id: null,
+    quantity: 1
+  });
 
   useEffect(() => {
-    if (isModalOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
+    if (data.product_id !== null) {
+      post(route('cart.store'), {
+        onSuccess : () => {
+          cartAlert(true);
+        }
+      });
     }
-  }, [isModalOpen]);
+  }, [data.product_id]);
 
-  // const handleModal = (item) => {
-  //   setSelectItem(item);
-  //   setIsModalOpen(true);
-  // };
-
-  // const handleCart = (product) => {
-  //   cart(product);
-  // };
+  const handleClick = (productId) => {
+    setData('product_id', productId);
+  };
 
   return (
     products.map((product) => (
@@ -46,14 +43,11 @@ const ProductCard = ({ products, cart }) => {
           </div>
           <div className="flex justify-between items-center text-primary">
             <span className="font-bold">${product.price}</span>
-            {auth.user && (
-              <button onClick={() => cart(product)} className="rounded-sm"><ShoppingCart size={20} className="hover:fill-primary" /></button>
-            )}
-            {/* <Modal
-                  isOpen={isModalOpen}
-                  onClose={() => setIsModalOpen(false)}
-                  item={selectItem}
-                /> */}
+            {auth.user &&
+              !carts.some(cart => cart.product_id == product.id) && (
+                <button onClick={() => handleClick(product.id)} className="rounded-sm"><ShoppingCart size={20} className="hover:fill-primary" /></button>
+              )
+            }
           </div>
         </div>
       </div>
