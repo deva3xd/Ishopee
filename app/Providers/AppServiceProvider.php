@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use App\Events\UserRegistered;
 use App\Listeners\CreateOrder;
+use App\Models\OrderItem;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,11 @@ class AppServiceProvider extends ServiceProvider
             'auth' => function () {
                 return [
                     'user' => Auth::user(),
+                ];
+            },
+            'total' => function () {
+                return [
+                    'cart' => OrderItem::count(),
                 ];
             },
         ]);

@@ -1,8 +1,8 @@
 import { Link, router, usePage } from "@inertiajs/react";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Search } from "lucide-react";
 
 const Navbar = () => {
-  const { auth } = usePage().props;
+  const { auth, total } = usePage().props;
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -13,26 +13,12 @@ const Navbar = () => {
   return (
     <div className="shadow-sm bg-primary w-screen fixed top-0 z-50">
       <div className="max-w-screen-xl mx-auto navbar p-4">
-        <div className="flex-1">
-          <Link href={route('home')} className="text-4xl font-semibold text-white">ishopee</Link>
-        </div>
-        <div className="w-full mx-24 flex gap-2">
+        <Link href={route('home')} className="text-4xl font-semibold text-white">ishopee</Link>
+        <div className="w-1/2 mx-auto flex gap-2">
           <label className="input w-full focus-within:outline-white border-none">
-            <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <g
-                strokeLinejoin="round"
-                strokeLinecap="round"
-                strokeWidth="2.5"
-                fill="none"
-                stroke="currentColor"
-              >
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="m21 21-4.3-4.3"></path>
-              </g>
-            </svg>
             <input type="search" className="grow" placeholder="Search" />
           </label>
-          <button className="btn text-primary">Search</button>
+          <button className="btn text-primary"><Search size={20} /></button>
         </div>
         <div className="flex gap-2">
           {auth.user ? (
@@ -40,7 +26,7 @@ const Navbar = () => {
               <Link href={route('cart')} className="btn btn-ghost btn-circle hover:bg-black border-none">
                 <div className="indicator">
                   <ShoppingCart color="#ffffff" />
-                  <span className="badge badge-sm indicator-item">8</span>
+                  <span className="badge badge-sm indicator-item">{total.cart}</span>
                 </div>
               </Link>
               <div className="dropdown dropdown-end">
@@ -66,10 +52,7 @@ const Navbar = () => {
               </div>
             </>
           ) : (
-            <div className="flex gap-1">
-              <Link href={route('login')} className="btn bg-primary text-white hover:text-primary hover:bg-white">Login</Link>
-              <Link href={route('register')} className="btn bg-primary text-white hover:text-primary hover:bg-white">Register</Link>
-            </div>
+            <Link href={route('login')} className="btn bg-primary text-white hover:text-primary hover:bg-white">Login / Register</Link>
           )}
         </div>
       </div>
