@@ -18,6 +18,7 @@ Route::get('/home', HomeController::class)->name('home');
 Route::middleware('auth')->group(function () {
   Route::get('/cart', [CartController::class, 'index'])->name('cart');
   Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+  Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
   
   Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
 });

@@ -43,4 +43,11 @@ class CartController extends Controller
 
         return redirect()->route('home')->with('success', 'Data Added');
     }
+
+    public function destroy($id)
+    {
+        OrderItem::where('product_id', $id)->delete();
+        
+        return redirect()->route('cart')->with('success', 'Delete Data');
+    }
 }

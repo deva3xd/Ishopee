@@ -1,25 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import Modal from "../components/Modal";
+import { Trash2, Check } from "lucide-react";
 
 const Cart = ({ items }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectItem, setSelectItem] = useState('');
   const [countSelectItem, setCountSelectItem] = useState('');
-
-  useEffect(() => {
-    if (isModalOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-  }, [isModalOpen]);
-
-  const handleModal = (item, count) => {
-    setSelectItem(item);
-    setCountSelectItem(count);
-    setIsModalOpen(true);
-  };
 
   const [counts, setCounts] = useState(() =>
     items.reduce((acc, item) => ({ ...acc, [item.id]: 1 }), {})
@@ -32,50 +19,81 @@ const Cart = ({ items }) => {
     }));
   };
 
+  const handleModal = (item) => {
+    setSelectItem(item);
+    setIsModalOpen(true);
+  };
+
   return (
     <MainLayout title="Cart">
-      <div className="w-full bg-white p-4 flex items-center justify-between gap-2 mb-2">
-        <span className="w-1/6">Product</span>
-        <span className="w-2/6">Product</span>
-        <span className="w-1/6">Price</span>
-        <span className="w-1/6">Amount</span>
-        <span className="w-1/6">Action</span>
-      </div>
-
-      {items.map((item) => (
-        <div key={item.id} className="w-full bg-white p-4 flex items-center justify-between gap-2">
-          <span className="w-1/6 flex justify-center border border-primary p-2">
-            <img
-              src={item.product.image}
-              alt={item.product.name}
-              className="h-28 object-contain"
-              loading="lazy"
-            />
-          </span>
-          <span className="text-lg font-medium w-2/6">{item.product.name}</span>
-          <span className="w-1/6">${item.product.price}</span>
-          <div className="flex gap-1 w-1/6 text-black">
-            <button onClick={() =>
-              setCount(item.id, Math.max((counts[item.id] || 1) - 1, 1))
-            }>-</button>
-            <span className="underline w-8 text-center">{counts[item.id]}</span>
-            <button onClick={() =>
-              setCount(item.id, Math.min((counts[item.id] || 1) + 1, 5))
-            }>+</button>
+      <div className="flex gap-2">
+        <div>
+          <div className="bg-white p-4 grid grid-cols-[1.5fr_3fr_0.8fr_0.8fr_1fr] gap-2 mb-2">
+            <span>Product</span>
+            <span>Product</span>
+            <span>Price</span>
+            <span>Amount</span>
+            <span>Action</span>
           </div>
-          <div className="w-1/6">
-            <button onClick={() => handleModal(item, counts[item.id])} className="btn bg-primary hover:brightness-90 text-white">Checkout</button>
-            <button onClick={() => console.log('clicked')} className="btn bg-red-600 hover:brightness-90 text-white">Delete</button>
+
+          {items.map((item) => (
+            <div key={item.id} className="bg-white p-4 grid grid-cols-[1.5fr_3fr_0.8fr_0.8fr_1fr] gap-2 border-b">
+              <span className="flex justify-center border border-primary p-2">
+                <img
+                  src={item.product.image}
+                  alt={item.product.name}
+                  className="h-28 object-contain"
+                  loading="lazy"
+                />
+              </span>
+              <span className="font-medium">{item.product.name}</span>
+              <span className="">${item.product.price * counts[item.id]}</span>
+              <div className="text-black">
+                <button onClick={() =>
+                  setCount(item.id, Math.max((counts[item.id] || 1) - 1, 1))
+                }>-</button>
+                <span className="underline mx-4 text-center">{counts[item.id]}</span>
+                <button onClick={() =>
+                  setCount(item.id, Math.min((counts[item.id] || 1) + 1, 5))
+                }>+</button>
+              </div>
+              <div className="">
+                <button onClick={() => handleModal(item, counts[item.id])} className="btn bg-primary hover:brightness-90 text-white w-1/2">
+                  <Check size={20} />
+                </button>
+                <button onClick={() => handleModal(item)} className="btn bg-red-600 hover:brightness-90 text-white w-1/2">
+                  <Trash2 size={20} />
+                </button>
+              </div>
+            </div>
+          ))}
+
+          {isModalOpen && (
+            <Modal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              item={selectItem}
+            />
+          )}
+
+        </div>
+        <div className="w-3/4">
+          <div className="bg-white p-4 mb-2">Order Summary</div>
+          <div className="bg-white p-4">
+            <div>
+              <div className="flex justify-between">
+                <span>Total Item</span>
+                <span className="font-semibold">{countSelectItem}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Total Price</span>
+                <span className="font-semibold">Total Item</span>
+              </div>
+            </div>
+            <button type="submit" className="btn bg-primary w-full rounded-md text-white mt-4">Checkout</button>
           </div>
         </div>
-      ))};
-
-      <Modal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        item={selectItem}
-        count={countSelectItem}
-      />
+      </div>
     </MainLayout>
   )
 }
