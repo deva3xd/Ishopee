@@ -28,7 +28,7 @@ const Cart = ({ items }) => {
     <MainLayout title="Cart">
       <div className="flex gap-2">
         <div>
-          <div className="bg-white p-4 grid grid-cols-[1.5fr_3fr_0.8fr_0.8fr_1fr] gap-2 mb-2">
+          <div className="hidden bg-white p-4 lg:grid grid-cols-[1.5fr_3fr_0.8fr_0.8fr_1fr] gap-2 mb-2">
             <span>Product</span>
             <span>Product</span>
             <span>Price</span>
@@ -36,8 +36,9 @@ const Cart = ({ items }) => {
             <span>Action</span>
           </div>
 
+          {/* list product */}
           {items.map((item) => (
-            <div key={item.id} className="bg-white p-4 grid grid-cols-[1.5fr_3fr_0.8fr_0.8fr_1fr] gap-2 border-b">
+            <div key={item.id} className="bg-white p-4 grid grid-cols-2 lg:grid-cols-[1.5fr_3fr_0.8fr_0.8fr_1fr] gap-2 border-b">
               <span className="flex justify-center border border-primary p-2">
                 <img
                   src={item.product.image}
@@ -46,8 +47,8 @@ const Cart = ({ items }) => {
                   loading="lazy"
                 />
               </span>
-              <span className="font-medium">{item.product.name}</span>
-              <span className="">${item.product.price * counts[item.id]}</span>
+              <span className="font-medium text-sm lg:text-base">{item.product.name}</span>
+              <span className="text-primary">${item.product.price * counts[item.id]}</span>
               <div className="text-black">
                 <button onClick={() =>
                   setCount(item.id, Math.max((counts[item.id] || 1) - 1, 1))
@@ -75,9 +76,10 @@ const Cart = ({ items }) => {
               item={selectItem}
             />
           )}
-
         </div>
-        <div className="w-3/4">
+
+        {/* order summary */}
+        <div className="w-3/4 hidden lg:flex flex-col">
           <div className="bg-white p-4 mb-2">Order Summary</div>
           <div className="bg-white p-4">
             <div>

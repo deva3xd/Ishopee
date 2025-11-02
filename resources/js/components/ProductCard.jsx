@@ -25,7 +25,7 @@ const ProductCard = ({ products, carts, cartAlert }) => {
 
   return (
     products.map((product) => (
-      <div key={product.id} className="card bg-base-100 w-52 shadow-sm flex-shrink-0 border-2 hover:border-primary rounded-sm p-1">
+      <div key={product.id} className="card bg-base-100 shadow-sm flex-shrink-0 border-2 hover:border-primary rounded-sm p-1">
         <figure className="rounded-sm py-2">
           <img
             src={product.image}
