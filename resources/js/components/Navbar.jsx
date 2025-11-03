@@ -12,7 +12,7 @@ const Navbar = () => {
     e.preventDefault();
 
     router.post(route("logout"));
-  }
+  };
 
   return (
     <div className="shadow-sm bg-primary w-screen fixed top-0 z-50">
@@ -40,14 +40,14 @@ const Navbar = () => {
             <input type="search" className="grow" placeholder="Search" />
           </label>
           <button className="btn text-primary"><Search size={20} /></button>
-          {auth.user &&
+          {/* {auth.user &&
             <Link href={route('dashboard')} className="btn btn-ghost rounded-md text-white border-none hover:bg-white hover:text-primary">
               <div className="flex items-center gap-1">
                 <Store />
                 <span>Shop</span>
               </div>
             </Link>
-          }
+          } */}
         </div>
 
         {/* desktop menu */}
@@ -64,7 +64,7 @@ const Navbar = () => {
                 <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                   <div className="w-10 rounded-full">
                     <img
-                      alt="Tailwind CSS Navbar component"
+                      alt="Profile"
                       src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
                   </div>
                 </div>
@@ -100,7 +100,7 @@ const Navbar = () => {
                 </div>
               </li>
               <li>
-                <Link href={route('dashboard')} className="block py-2 text-sm hover:underline">Shop</Link>
+                {/* <Link href={route('dashboard')} className="block py-2 text-sm hover:underline">Shop</Link> */}
               </li>
               <li>
                 <Link href={route('cart')} className="block py-2 text-sm hover:underline">Profile</Link>

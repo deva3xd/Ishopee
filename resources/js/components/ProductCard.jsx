@@ -29,7 +29,7 @@ const ProductCard = ({ products, carts, cartAlert }) => {
         <figure className="rounded-sm py-2">
           <img
             src={product.image}
-            alt={product.name}
+            alt="Product"
             className="h-52 object-contain"
             loading="lazy"
           />

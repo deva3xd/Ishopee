@@ -42,7 +42,7 @@ const Cart = ({ items }) => {
               <span className="flex justify-center border border-primary p-2">
                 <img
                   src={item.product.image}
-                  alt={item.product.name}
+                  alt="Product"
                   className="h-28 object-contain"
                   loading="lazy"
                 />
