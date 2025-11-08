@@ -11,11 +11,9 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $product = Product::count();
-        $user = User::count();
         $products = Product::with(['profile', 'category'])->get();
         $users = User::all();
-        return Inertia::render('admin/Index', compact('product', 'user', 'products', 'users'));
+        return Inertia::render('admin/Index', compact('products', 'users'));
     }
 
     public function profile()
