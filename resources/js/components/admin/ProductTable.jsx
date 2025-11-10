@@ -29,9 +29,9 @@ const ProductTable = ({ products }) => {
         </table>
       </div>
       <div className="flex justify-between mt-2">
-        <div>Showing {products.from} to {products.to} of {products.total} entries</div>
+        <div>Showing {products.meta.from} to {products.meta.to} of {products.meta.total} entries</div>
         <div className="join">
-          {products.links.map((product) => (
+          {products.meta.links.map((product) => (
             <Link
               key={product?.label ?? "#"}
               href={product?.url ?? "#"}

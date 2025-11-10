@@ -27,9 +27,9 @@ const UserTable = ({ users }) => {
         </table>
       </div>
       <div className="flex justify-between mt-2">
-        <div>Showing {users.from} to {users.to} of {users.total} entries</div>
+        <div>Showing {users.meta.from} to {users.meta.to} of {users.meta.total} entries</div>
         <div className="join">
-          {users.links.map((user) => (
+          {users.meta.links.map((user) => (
             <Link
               key={user?.label ?? "#"}
               href={user?.url ?? "#"}
