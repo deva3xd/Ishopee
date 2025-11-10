@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\User;
 use App\Events\UserRegistered;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {
@@ -15,21 +17,18 @@ class AuthController extends Controller
         return Inertia::render('auth/Login');
     }
 
-    public function loginStore(Request $request)
+    public function loginStore(LoginRequest $request)
     {
-        $validate = $request->validate([
-            'email' => 'required|string|lowercase|email|max:255',
-            'password' => 'required|min:8',
-        ]);
+        $validated = $request->validated();
 
-        if (Auth::attempt($validate)) {
+        if (Auth::attempt($validated)) {
             $request->session()->regenerate();
             $user = Auth::user();
 
-            if ($user->role === 'buyer') {
+            if (in_array($user->role, ['buyer', 'seller'])) {
                 return redirect()->route('home');
             } else {
-                return redirect()->route('cart');
+                return redirect()->route('admin.dashboard');
             }
         }
 
@@ -43,14 +42,10 @@ class AuthController extends Controller
         return Inertia::render('auth/Register');
     }
 
-    public function registerStore(Request $request)
+    public function registerStore(RegisterRequest $request)
     {
-        $validate = $request->validate([
-            'username' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
-            'password' => 'required|min:8',
-        ]);
-        $user  = User::create($validate);
+        $validated = $request->validated();
+        $user  = User::create($validated);
         event(new UserRegistered($user));
 
         return redirect()->route('login')->with('success', 'Data Added');
