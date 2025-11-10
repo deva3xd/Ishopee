@@ -12,11 +12,11 @@ const Index = ({ products, users }) => {
       <div className="grid grid-cols-2 gap-4 justify-between">
         <button onClick={() => setIsActive(false)} className="rounded-sm bg-red-600 flex items-center justify-center gap-2 text-white px-8 py-12 text-3xl">
           <User size={40} />
-          {users.length} User
+          {users.total} User
         </button>
         <button onClick={() => setIsActive(true)} className="rounded-sm bg-primary flex items-center justify-center gap-2 text-white px-8 py-12 text-3xl">
           <Database size={40} />
-          {products.length} Product
+          {products.total} Product
         </button>
       </div>
 
