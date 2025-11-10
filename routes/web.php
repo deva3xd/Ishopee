@@ -21,7 +21,7 @@ Route::middleware('auth')->group(function () {
   Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
   Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
   
-  Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('adminDashboard');
+  Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
   Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
 
   Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');

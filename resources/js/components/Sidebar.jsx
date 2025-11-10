@@ -6,16 +6,18 @@ const Sidebar = ({ content }) => {
 
   const menus = [
     {
-      href: route('adminDashboard'),
+      href: route('admin.dashboard'),
       icon: LayoutDashboard,
       name: 'Admin Dashboard',
-      url: '/admin/dashboard'
+      url: '/admin/dashboard',
+      route: 'admin.dashboard'
     },
     {
       href: route('admin.profile'),
       icon: User,
       name: 'Admin Profile',
-      url: '/admin/profile'
+      url: '/admin/profile',
+      route: 'admin.profile'
     },
   ];
 
@@ -38,7 +40,7 @@ const Sidebar = ({ content }) => {
           <span className="text-xs font-normal">MENU</span>
           {menus.map((menu, index) => (
             <li key={index}>
-              <Link href={menu.href} className={`text-black hover:bg-primary hover:text-white text-base ${menu.url == url && 'bg-primary text-white'}`}>
+              <Link href={menu.href} className={`text-black hover:bg-primary hover:text-white text-base ${route().current() == menu.route ? 'bg-primary text-white' : 'bg-white'}`}>
                 <menu.icon size={20} />
                 {menu.name}
               </Link>
