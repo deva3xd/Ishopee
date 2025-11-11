@@ -21,14 +21,12 @@ const Navbar = () => {
 
         {/* hammburger button */}
         <div className="flex lg:hidden text-white">
-          {auth.user && (
-            <Link href={route('cart')} className="btn btn-ghost btn-circle border-none me-2 text-white hover:bg-white hover:text-primary">
-              <div className="indicator">
-                <ShoppingCart />
-                <span className="badge badge-sm indicator-item text-primary border border-primary">{total.cart}</span>
-              </div>
-            </Link>
-          )}
+          <Link href={route('cart')} className="btn btn-ghost btn-circle border-none me-2 text-white hover:bg-white hover:text-primary">
+            <div className="indicator">
+              <ShoppingCart />
+              <span className="badge badge-sm indicator-item text-primary border border-primary">{total.cart}</span>
+            </div>
+          </Link>
           <button onClick={toggleMenu}>
             {menuOpen ? <X /> : <Menu />}
           </button>
@@ -40,14 +38,14 @@ const Navbar = () => {
             <input type="search" className="grow" placeholder="Search" />
           </label>
           <button className="btn text-primary"><Search size={20} /></button>
-          {/* {auth.user &&
-            <Link href={route('dashboard')} className="btn btn-ghost rounded-md text-white border-none hover:bg-white hover:text-primary">
+          {auth.user &&
+            <Link href={route('admin.dashboard')} className="btn btn-ghost rounded-md text-white border-none hover:bg-white hover:text-primary">
               <div className="flex items-center gap-1">
                 <Store />
                 <span>Shop</span>
               </div>
             </Link>
-          } */}
+          }
         </div>
 
         {/* desktop menu */}
@@ -87,12 +85,12 @@ const Navbar = () => {
       </div>
 
       {/* mobile menu */}
-      <div className={`lg:hidden ${menuOpen ? 'block' : 'hidden'} bg-base-100 border-b border-primary ps-6`}>
+      <div className={`lg:hidden bg-[#f5f5f5] ${menuOpen ? 'block' : 'hidden'} bg-base-100 border-b border-primary ps-4`}>
         <ul className="flex flex-col p-2">
           {auth.user ? (
             <>
               <li>
-                <div className="flex">
+                <div className="flex gap-1">
                   <label className="input w-full focus-within:outline-white border-none">
                     <input type="search" className="grow" placeholder="Search" />
                   </label>
@@ -100,19 +98,29 @@ const Navbar = () => {
                 </div>
               </li>
               <li>
-                {/* <Link href={route('dashboard')} className="block py-2 text-sm hover:underline">Shop</Link> */}
+                <Link href={route('admin.dashboard')} className="block py-2 text-sm hover:underline font-medium">Shop</Link>
               </li>
               <li>
-                <Link href={route('cart')} className="block py-2 text-sm hover:underline">Profile</Link>
+                <Link href={route('cart')} className="block py-2 text-sm hover:underline font-medium">Profile</Link>
               </li>
               <li>
-                <button onClick={handleLogout} className="block py-2 text-sm hover:underline">Logout</button>
+                <button onClick={handleLogout} className="block py-2 text-sm hover:underline font-medium">Logout</button>
               </li>
             </>
           ) : (
-            <li>
-              <Link href={route('login')} className="block py-2 text-sm hover:underline">Login / Register</Link>
-            </li>
+            <>
+              <li>
+                <div className="flex gap-1">
+                  <label className="input w-full focus-within:outline-white border-none">
+                    <input type="search" className="grow" placeholder="Search" />
+                  </label>
+                  <button className="btn text-primary"><Search size={20} /></button>
+                </div>
+              </li>
+              <li>
+                <Link href={route('login')} className="block py-2 text-sm hover:underline font-medium">Login / Register</Link>
+              </li>
+            </>
           )}
         </ul>
       </div>
