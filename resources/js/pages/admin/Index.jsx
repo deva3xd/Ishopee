@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { User, Database } from "lucide-react";
 import AdminLayout from "../../layouts/AdminLayout";
-import UserTable from "../../components/admin/UserTable";
-import ProductTable from "../../components/admin/ProductTable";
+import UserTable from "../../components/table/UserTable";
+import ProductTable from "../../components/table/ProductTable";
 
 const Index = ({ products, users }) => {
   const [isActive, setIsActive] = useState(false);
-  console.log(products)
 
   return (
     <AdminLayout title="Admin Dashboard">
@@ -22,7 +21,7 @@ const Index = ({ products, users }) => {
       </div>
 
       {/* table */}
-      {isActive == false ? <UserTable users={users} /> : <ProductTable products={products} />}
+      {isActive === false ? <UserTable users={users} /> : <ProductTable products={products} />}
     </AdminLayout>
   )
 }
