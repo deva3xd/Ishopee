@@ -12,10 +12,12 @@ class CartController extends Controller
 {
     public function index()
     {
-        $items = OrderItem::with(['product'])->get();
-        return Inertia::render('Cart', ['items' => $items]);
+        $items = OrderItem::with(['product'])->whereHas('order.user', function ($query) {
+            $query->where('user_id', Auth::id());
+        })->get();
+        return Inertia::render('Cart', compact('items'));
     }
-
+// $cartCount = Cart::where('user_id', Auth::id())->count();
     public function store(Request $request)
     {
         $validate = $request->validate([

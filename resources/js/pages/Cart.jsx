@@ -21,30 +21,34 @@ const Cart = ({ items }) => {
           </div>
 
           {/* list product */}
-          {items.map((item) => (
-            <div key={item.id} className="bg-white p-4 grid grid-cols-2 md:grid-cols-[1.5fr_3fr_0.8fr_0.8fr_1fr] gap-2 border-b">
-              <span className="flex justify-center border border-primary p-2">
-                <img
-                  src={item.product.image}
-                  alt="Product"
-                  className="h-28 object-contain"
-                  loading="lazy"
-                />
-              </span>
-              <span className="font-medium text-sm md:text-base flex items-center">{item.product.name}</span>
-              <span className="text-primary flex items-center">
-                ${item.product.price * ((count[item.id]?.count || 0) === 0 ? 1 : (count[item.id]?.count ?? 1))}
-              </span>
-              <div className="text-black flex items-center">
-                <button onClick={() => dec(item.id)}>-</button>
-                <span className="underline mx-4 text-center">{count[item.id]?.count ?? 0}</span>
-                <button onClick={() => inc(item.id)}>+</button>
+          {items.length == 0 ? (
+            <div className="flex justify-center">No Items Available</div>
+          ) : (
+            items.map((item) => (
+              <div key={item.id} className="bg-white p-4 grid grid-cols-2 md:grid-cols-[1.5fr_3fr_0.8fr_0.8fr_1fr] gap-2 border-b">
+                <span className="flex justify-center border border-primary p-2">
+                  <img
+                    src={item.product.image}
+                    alt="Product"
+                    className="h-28 object-contain"
+                    loading="lazy"
+                  />
+                </span>
+                <span className="font-medium text-sm md:text-base flex items-center">{item.product.name}</span>
+                <span className="text-primary flex items-center">
+                  ${item.product.price * ((count[item.id]?.count || 0) === 0 ? 1 : (count[item.id]?.count ?? 1))}
+                </span>
+                <div className="text-black flex items-center">
+                  <button onClick={() => dec(item.id)}>-</button>
+                  <span className="underline mx-4 text-center">{count[item.id]?.count ?? 0}</span>
+                  <button onClick={() => inc(item.id)}>+</button>
+                </div>
+                <button type="submit" onClick={() => openModal(item)} className="flex justify-center items-center px-1 bg-red-600 hover:brightness-90 text-white h-full w-full">
+                  <Trash2 size={20} />
+                </button>
               </div>
-              <button type="submit" onClick={() => openModal(item)} className="flex justify-center items-center px-1 bg-red-600 hover:brightness-90 text-white h-full w-full">
-                <Trash2 size={20} />
-              </button>
-            </div>
-          ))}
+            ))
+          )}
         </div>
 
         {/* order summary */}
