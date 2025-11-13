@@ -1,34 +1,33 @@
 import { create } from "zustand";
 
-const useCount = create((set) => ({
-  countPerItem: {},
+const useCount = create((set, get) => ({
+  count: {},
   inc: (id) =>
     set((state) => {
-      const item = state.countPerItem[id];
+      const current = state.count[id]?.count ?? 0;
       return {
-        countPerItem: {
-          ...state.countPerItem,
-          [id]: item
-            ? { ...item, count: item.count + 1 }
-            : { ...id, count: 2 },
+        count: {
+          ...state.count,
+          [id]: { count: current + 1 },
         },
-      }
+      };
     }),
 
   dec: (id) =>
     set((state) => {
-      const item = state.countPerItem[id];
-      if (!item) return state;
-      const newCount = Math.max(item.count - 1, 1);
+      const current = state.count[id]?.count ?? 1;
+      const newCount = Math.max(current - 1, 0);
       return {
-        countPerItem: {
-          ...state.countPerItem,
-          [id]: { ...item, count: newCount },
+        count: {
+          ...state.count,
+          [id]: { count: newCount },
         },
-      }
+      };
     }),
 
-  countSelectedItem: 0
+  totalCount: () => {
+    return Object.values(get().count).reduce((sum, item) => sum + (item.count || 0), 0);
+  },
 }));
 
 export default useCount;
