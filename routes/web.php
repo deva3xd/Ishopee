@@ -16,13 +16,14 @@ Route::middleware('guest')->group(function () {
 Route::redirect('/', '/home');
 Route::get('/home', HomeController::class)->name('home');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'role:buyer,seller'])->group(function () {
   Route::get('/cart', [CartController::class, 'index'])->name('cart');
   Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
   Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
-  
-  Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-  Route::get('/admin/profile', [AdminController::class, 'profile'])->name('admin.profile');
-
-  Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
 });
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+  Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+});
+
+Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
