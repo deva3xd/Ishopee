@@ -33,7 +33,9 @@ class AppServiceProvider extends ServiceProvider
             },
             'total' => function () {
                 return [
-                    'cart' => OrderItem::count(),
+                    'item' => OrderItem::with(['product'])->whereHas('order.user', function ($query) {
+                        $query->where('user_id', Auth::id());
+                    })->count(),
                 ];
             },
         ]);

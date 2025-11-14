@@ -24,7 +24,7 @@ const Navbar = () => {
           <Link href={route('cart')} className="btn btn-ghost btn-circle border-none me-2 text-white hover:bg-white hover:text-primary">
             <div className="indicator">
               <ShoppingCart />
-              <span className="badge badge-sm indicator-item text-primary border border-primary">{total.cart}</span>
+              <span className="badge badge-sm indicator-item text-primary border border-primary">{total.item}</span>
             </div>
           </Link>
           <button onClick={toggleMenu}>
@@ -55,7 +55,7 @@ const Navbar = () => {
               <Link href={route('cart')} className="btn btn-ghost btn-circle border-none me-2 text-white hover:bg-white hover:text-primary">
                 <div className="indicator">
                   <ShoppingCart />
-                  <span className="badge badge-sm indicator-item text-primary border border-primary">{total.cart}</span>
+                  <span className="badge badge-sm indicator-item text-primary border border-primary">{total.item}</span>
                 </div>
               </Link>
               <div className="dropdown dropdown-end">
