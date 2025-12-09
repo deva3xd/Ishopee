@@ -18,7 +18,7 @@ class HomeController extends Controller
         $category = $request->input('category');
         $query = Product::with(['profile', 'category']);
 
-        // filtered products
+        // filter products
         if ($category && $category !== 'all') {
             $query->whereHas('category', function ($q) use ($category) {
                 $q->where('slug', $category);

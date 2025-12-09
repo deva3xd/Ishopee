@@ -35,7 +35,7 @@ const Home = ({ products, categories, carts }) => {
               <Link
                 key={p?.label ?? "#"}
                 href={p?.url ?? "#"}
-                className={`join-item btn btn-sm border border-primary hover:bg-gray-200 ${p.active === true && "bg-primary text-white pointer-events-none"}`}
+                className={`join-item btn btn-sm border border-primary hover:bg-gray-200 text-primary ${p.active === true && "bg-primary text-white pointer-events-none"}`}
                 dangerouslySetInnerHTML={{ __html: p.label }}
               />
             ))}
