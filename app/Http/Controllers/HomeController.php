@@ -15,22 +15,31 @@ class HomeController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $category = $request->input('category');
-        $query = Product::with(['profile', 'category']);
+        $queryCategory = $request->input('category');
+        $querySearch = $request->input('search');
 
-        // filter products
-        if ($category && $category !== 'all') {
-            $query->whereHas('category', function ($q) use ($category) {
-                $q->where('slug', $category);
+        $product = Product::with(['profile', 'category']);
+
+        // filter by category
+        if ($queryCategory && $queryCategory !== 'all') {
+            $product->whereHas('category', function ($q) use ($queryCategory) {
+                $q->where('slug', $queryCategory);
             });
         }
 
-        $products = ProductResource::collection($query->paginate(15));
+        // filter by search
+        if ($querySearch) {
+            $product->where(function ($q) use ($querySearch) {
+                $q->where('name', 'like', '%' . $querySearch . '%');
+            });
+        }
+
+        $results = ProductResource::collection($product->paginate(15));
         $categories = CategoryResource::collection(Category::all());
         $carts = OrderItem::with(['product'])->whereHas('order.user', function ($query) {
             $query->where('user_id', Auth::id());
         })->get();
 
-        return Inertia::render('Home', compact('products', 'categories', 'carts'));
+        return Inertia::render('Home', compact('results', 'categories', 'carts'));
     }
 }

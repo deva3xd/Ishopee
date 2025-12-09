@@ -3,7 +3,7 @@ import { usePage, router, Link } from "@inertiajs/react";
 import MainLayout from "../layouts/MainLayout";
 import ProductCard from "../components/ProductCard";
 
-const Home = ({ products, categories, carts }) => {
+const Home = ({ results, categories, carts }) => {
   const [alert, setAlert] = useState(false);
   const { url } = usePage();
   const query = new URLSearchParams(url.split('?')[1] || "");
@@ -27,22 +27,26 @@ const Home = ({ products, categories, carts }) => {
         <div className="flex justify-between my-2">
           <div className="font-medium text-sm flex flex-wrap items-center gap-1">
             {[{ id: 0, name: "all", slug: "all" }, ...categories.data].map((category) => (
-              <button onClick={() => handleCategory(category.slug)} key={category.id} className={`py-1 px-2 border border-primary rounded-sm hover:bg-gray-200 capitalize ${queryCategory === category.slug ? 'bg-primary text-white' : 'bg-white text-primary'}`}>{category.name}</button>
+              <button onClick={() => handleCategory(category.slug)} key={category.id} className={`py-1 px-2 border border-primary rounded-sm hover:bg-gray-200 capitalize ${queryCategory === category.slug ? 'bg-primary text-white pointer-events-none' : 'bg-white text-primary'}`}>{category.name}</button>
             ))}
           </div>
           <div className="join flex justify-center">
-            {products.meta.links.map((p) => (
+            {results.meta.links.map((r) => (
               <Link
-                key={p?.label ?? "#"}
-                href={p?.url ?? "#"}
-                className={`join-item btn btn-sm border border-primary hover:bg-gray-200 text-primary ${p.active === true && "bg-primary text-white pointer-events-none"}`}
-                dangerouslySetInnerHTML={{ __html: p.label }}
+                key={r?.label ?? "#"}
+                href={r?.url ?? "#"}
+                className={`join-item btn btn-sm border border-rrimary hover:bg-gray-200 text-primary ${r.active === true && "bg-primary text-white pointer-events-none"}`}
+                dangerouslySetInnerHTML={{ __html: r.label }}
               />
             ))}
           </div>
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-1">
-          <ProductCard products={products.data} cartAlert={handleCartAlert} carts={carts} />
+          {results ? (
+            <ProductCard products={results.data} cartAlert={handleCartAlert} carts={carts} />
+          ) : (
+            <span>There's No Products Available</span>
+          )}
         </div>
       </div>
       {alert && (

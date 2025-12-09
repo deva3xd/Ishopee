@@ -1,4 +1,4 @@
-import { Link, router, usePage } from "@inertiajs/react";
+import { Link, router, useForm, usePage } from "@inertiajs/react";
 import { Store } from "lucide-react";
 import { useState } from "react";
 import { ShoppingCart, Search, Menu, X } from "lucide-react";
@@ -7,10 +7,17 @@ const Navbar = () => {
   const { auth, total } = usePage().props;
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen(!menuOpen);
+  const { data, setData, get } = useForm({ search: "" });
 
-  const handleLogout = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
+    get(route('home'), data, {
+      preserveState: true,
+    });
+  }
+
+  const handleLogout = () => {
     router.post(route("logout"));
   };
 
@@ -21,37 +28,38 @@ const Navbar = () => {
 
         {/* hammburger button */}
         <div className="flex lg:hidden text-white">
-          <Link href={route('cart')} className="btn btn-ghost btn-circle border-none me-2 text-white hover:bg-white hover:text-primary">
-            <div className="indicator">
-              <ShoppingCart />
-              <span className="badge badge-sm indicator-item text-primary border border-primary">{total.item}</span>
-            </div>
-          </Link>
+          {auth.user &&
+            <Link href={route('cart')} className="btn btn-ghost btn-circle border-none me-2 text-white hover:bg-white hover:text-primary">
+              <div className="indicator">
+                <ShoppingCart />
+                <span className="badge badge-sm indicator-item text-primary border border-primary">{total.item}</span>
+              </div>
+            </Link>
+          }
           <button onClick={toggleMenu}>
             {menuOpen ? <X /> : <Menu />}
           </button>
         </div>
 
         {/* search bar */}
-        <div className="hidden w-1/2 mx-auto lg:flex gap-2">
-          <label className="input w-full focus-within:outline-white border-none">
-            <input type="search" className="grow" placeholder="Search" />
-          </label>
-          <button className="btn text-primary"><Search size={20} /></button>
-          {auth.user &&
-            <Link href={route('admin.dashboard')} className="btn btn-ghost rounded-md text-white border-none hover:bg-white hover:text-primary">
-              <div className="flex items-center gap-1">
-                <Store />
-                <span>Shop</span>
-              </div>
-            </Link>
-          }
+        <div className="hidden mx-auto lg:flex gap-2 flex-1 max-w-2xl">
+          <form onSubmit={handleSubmit} className="flex w-3/4 mx-auto gap-2">
+            <label className="input w-full border-none focus-within:bg-gray-200 shadow-none focus-within:outline-none">
+              <input id="search" name="search" value={data.search} onChange={(e) => setData("search", e.target.value)} type="search" className="grow" placeholder="Search" required />
+            </label>
+            <button type="submit" className="btn text-primary"><Search size={20} /></button>
+          </form>
         </div>
 
         {/* desktop menu */}
         <div className="hidden lg:flex items-center gap-2">
           {auth.user ? (
-            <div>
+            <>
+              <Link href={route('admin.dashboard')} className="btn btn-ghost p-2 rounded-full text-white border-none hover:bg-white hover:text-primary">
+                <div className="flex items-center gap-1">
+                  <Store />
+                </div>
+              </Link>
               <Link href={route('cart')} className="btn btn-ghost btn-circle border-none me-2 text-white hover:bg-white hover:text-primary">
                 <div className="indicator">
                   <ShoppingCart />
@@ -77,7 +85,7 @@ const Navbar = () => {
                   </li>
                 </ul>
               </div>
-            </div>
+            </>
           ) : (
             <Link href={route('login')} className="btn bg-primary text-white hover:text-primary hover:bg-white">Login / Register</Link>
           )}
@@ -87,16 +95,18 @@ const Navbar = () => {
       {/* mobile menu */}
       <div className={`lg:hidden bg-[#f5f5f5] ${menuOpen ? 'block' : 'hidden'} bg-base-100 border-b border-primary ps-4`}>
         <ul className="flex flex-col p-2">
+          <li>
+            <form onSubmit={handleSubmit}>
+              <div className="flex gap-1">
+                <label className="input w-full focus-within:outline-white border border-gray-300">
+                  <input id="search" name="search" value={data.search} onChange={(e) => setData("search", e.target.value)} type="search" className="grow" placeholder="Search" required />
+                </label>
+                <button type="submit" className="btn text-primary border border-gray-300"><Search size={20} /></button>
+              </div>
+            </form>
+          </li>
           {auth.user ? (
             <>
-              <li>
-                <div className="flex gap-1">
-                  <label className="input w-full focus-within:outline-white border-none">
-                    <input type="search" className="grow" placeholder="Search" />
-                  </label>
-                  <button className="btn text-primary"><Search size={20} /></button>
-                </div>
-              </li>
               <li>
                 <Link href={route('admin.dashboard')} className="block py-2 text-sm hover:underline font-medium">Shop</Link>
               </li>
@@ -108,19 +118,9 @@ const Navbar = () => {
               </li>
             </>
           ) : (
-            <>
-              <li>
-                <div className="flex gap-1">
-                  <label className="input w-full focus-within:outline-white border-none">
-                    <input type="search" className="grow" placeholder="Search" />
-                  </label>
-                  <button className="btn text-primary"><Search size={20} /></button>
-                </div>
-              </li>
-              <li>
-                <Link href={route('login')} className="block py-2 text-sm hover:underline font-medium">Login / Register</Link>
-              </li>
-            </>
+            <li>
+              <Link href={route('login')} className="block py-2 text-sm hover:underline font-medium">Login / Register</Link>
+            </li>
           )}
         </ul>
       </div>

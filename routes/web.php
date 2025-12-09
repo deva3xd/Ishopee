@@ -6,15 +6,15 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 
+Route::redirect('/', '/home');
+Route::get('/home', HomeController::class)->name('home');
+
 Route::middleware('guest')->group(function () {
   Route::get('/login', [AuthController::class, 'login'])->name('login');
   Route::post('/login', [AuthController::class, 'loginStore'])->name('login.store');
   Route::get('/register', [AuthController::class, 'register'])->name('register');
   Route::post('/register', [AuthController::class, 'registerStore'])->name('register.store');
 });
-
-Route::redirect('/', '/home');
-Route::get('/home', HomeController::class)->name('home');
 
 Route::middleware(['auth', 'role:buyer,seller'])->group(function () {
   Route::get('/cart', [CartController::class, 'index'])->name('cart');
@@ -23,7 +23,7 @@ Route::middleware(['auth', 'role:buyer,seller'])->group(function () {
 });
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
-  Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+  Route::get('/admin/dashboard', AdminController::class)->name('admin.dashboard');
 });
 
 Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
