@@ -1,15 +1,8 @@
-import { router } from "@inertiajs/react";
 import useToggleModal from "../stores/useModal";
 
-const Modal = () => {
-  const { openModal, closeModal, selectedItem } = useToggleModal();
+const Modal = ({ confirmDelete }) => {
+  const { openModal, closeModal } = useToggleModal();
   if (!openModal) return null;
-
-  const handleDelete = () => {
-    router.delete(route("cart.destroy", selectedItem.product.id), {
-      onSuccess: () => closeModal(),
-    });
-  }; 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
@@ -17,7 +10,7 @@ const Modal = () => {
         <h3 className="font-bold text-2xl text-primary border-b">Delete Product</h3>
         <span>Are you sure you want to delete this item?</span>
         <div className="flex justify-end mt-2">
-          <button onClick={handleDelete} className="btn bg-red-600 hover:brightness-90 text-white">
+          <button onClick={confirmDelete} className="btn bg-red-600 hover:brightness-90 text-white">
             Delete
           </button>
           <button onClick={closeModal} className="btn bg-black hover:brightness-90 text-white">
@@ -27,6 +20,6 @@ const Modal = () => {
       </div>
     </div>
   )
-};
+}
 
 export default Modal;
