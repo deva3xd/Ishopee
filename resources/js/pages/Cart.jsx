@@ -1,12 +1,29 @@
+import { useEffect } from "react";
 import { Trash2 } from "lucide-react";
+import { router } from "@inertiajs/react";
 import useModal from "../stores/useModal";
 import useCount from "../stores/useCount";
 import MainLayout from "../layouts/MainLayout";
 import Modal from "../components/Modal";
+import useToggleModal from "../stores/useModal";
 
 const Cart = ({ items }) => {
   const { modalOpen, openModal } = useModal();
-  const { count, inc, dec, totalCount } = useCount();
+  const { count, inc, dec, totalQuantity, totalPrice } = useCount();
+  const { selectedItem, closeModal } = useToggleModal();
+
+  // not effective using useEffect, when item more than 50 
+  const setPrice = useCount((s) => s.setPrice);
+
+  useEffect(() => {
+    items.map((item) => setPrice(item.id, item.product.price));
+  }, []);
+
+  const handleDelete = () => {
+    router.delete(route("cart.destroy", selectedItem.product.id), {
+      onSuccess: () => closeModal(),
+    });
+  };
 
   return (
     <MainLayout title="Cart">
@@ -39,9 +56,9 @@ const Cart = ({ items }) => {
                   ${item.product.price * ((count[item.id]?.count || 0) === 0 ? 1 : (count[item.id]?.count ?? 1))}
                 </span>
                 <div className="text-black flex items-center">
-                  <button onClick={() => dec(item.id)}>-</button>
+                  <button onClick={() => dec(item.id, item.product.price)}>-</button>
                   <span className="underline mx-4 text-center">{count[item.id]?.count ?? 0}</span>
-                  <button onClick={() => inc(item.id)}>+</button>
+                  <button onClick={() => inc(item.id, item.product.price)}>+</button>
                 </div>
                 <button type="submit" onClick={() => openModal(item)} className="flex justify-center items-center px-1 bg-red-600 hover:brightness-90 text-white h-full w-full">
                   <Trash2 size={20} />
@@ -58,11 +75,11 @@ const Cart = ({ items }) => {
             <div>
               <div className="flex justify-between">
                 <span>Total Item</span>
-                <span className="font-semibold">{totalCount()}</span>
+                <span className="font-semibold">{totalQuantity()}</span>
               </div>
               <div className="flex justify-between">
                 <span>Total Price</span>
-                <span className="font-semibold">$0</span>
+                <span className="font-semibold">${totalPrice()}</span>
               </div>
             </div>
             <button type="submit" className="btn bg-primary w-full md:w-full rounded-md text-white mt-4">Checkout</button>
@@ -70,8 +87,7 @@ const Cart = ({ items }) => {
         </div>
       </div>
 
-      {/* modal */}
-      {modalOpen && <Modal />}
+      {modalOpen && <Modal confirmDelete={handleDelete} />}
     </MainLayout>
   )
 }
