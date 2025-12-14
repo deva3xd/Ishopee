@@ -27,7 +27,7 @@ const Home = ({ results, categories, carts }) => {
         <div className="flex justify-between my-2">
           <div className="font-medium text-sm flex flex-wrap items-center gap-1">
             {[{ id: 0, name: "all", slug: "all" }, ...categories.data].map((category) => (
-              <button onClick={() => handleCategory(category.slug)} key={category.id} className={`py-1 px-2 border border-primary rounded-sm hover:bg-gray-200 capitalize ${queryCategory === category.slug ? 'bg-primary text-white pointer-events-none' : 'bg-white text-primary'}`}>{category.name}</button>
+              <button onClick={() => handleCategory(category.slug)} key={category.id} className={`btn btn-sm hover:bg-gray-200 text-primary capitalize ${queryCategory === category.slug && 'bg-primary text-white pointer-events-none'}`}>{category.name}</button>
             ))}
           </div>
           <div className="join flex justify-center">
@@ -35,7 +35,7 @@ const Home = ({ results, categories, carts }) => {
               <Link
                 key={r?.label ?? "#"}
                 href={r?.url ?? "#"}
-                className={`join-item btn btn-sm border border-rrimary hover:bg-gray-200 text-primary ${r.active === true && "bg-primary text-white pointer-events-none"}`}
+                className={`join-item btn btn-sm hover:bg-gray-200 text-primary ${r.active === true && "bg-primary text-white pointer-events-none"}`}
                 dangerouslySetInnerHTML={{ __html: r.label }}
               />
             ))}
