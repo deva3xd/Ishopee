@@ -15,22 +15,22 @@ const Home = ({ results, categories, carts }) => {
   };
 
   const handleCategory = (categoryName) => {
-    router.get(route('home'), { category: categoryName }, { preserveState: true });
+    router.get(route('product'), { category: categoryName }, { preserveState: true });
   };
 
   return (
     <MainLayout title="Home">
-      <div className="p-4 mb-2 bg-white">
+      <div className="mb-2 bg-white p-2">
         <div className="w-full border-b-2 border-primary">
           <h2 className="text-primary font-medium text-xl">Product</h2>
         </div>
-        <div className="flex justify-between my-2">
-          <div className="font-medium text-sm flex flex-wrap items-center gap-1">
+        <div className="flex flex-col sm:flex-row justify-between my-2">
+          <div className="font-medium text-sm flex flex-wrap gap-1">
             {[{ id: 0, name: "all", slug: "all" }, ...categories.data].map((category) => (
               <button onClick={() => handleCategory(category.slug)} key={category.id} className={`btn btn-sm hover:bg-gray-200 text-primary capitalize ${queryCategory === category.slug && 'bg-primary text-white pointer-events-none'}`}>{category.name}</button>
             ))}
           </div>
-          <div className="join flex justify-center">
+          <div className="join flex mt-2 sm:mt-0 justify-center">
             {results.meta.links.map((r) => (
               <Link
                 key={r?.label ?? "#"}
@@ -41,7 +41,7 @@ const Home = ({ results, categories, carts }) => {
             ))}
           </div>
         </div>
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-1">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2">
           {results ? (
             <ProductCard products={results.data} cartAlert={handleCartAlert} carts={carts} />
           ) : (

@@ -4,10 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProdukController;
 
-Route::redirect('/', '/home');
-Route::get('/home', HomeController::class)->name('home');
+Route::redirect('/', '/products');
+Route::get('/products', [ProdukController::class, 'index'])->name('product');
 
 Route::middleware('guest')->group(function () {
   Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -17,13 +18,27 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware(['auth', 'role:buyer,seller'])->group(function () {
-  Route::get('/cart', [CartController::class, 'index'])->name('cart');
-  Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
-  Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+  Route::get('/products/{id}', [ProdukController::class, 'show'])->name('detail');
 });
 
-Route::middleware(['auth', 'role:admin'])->group(function () {
-  Route::get('/admin/dashboard', AdminController::class)->name('admin.dashboard');
+Route::prefix('cart')->group(function() {
+  Route::middleware(['auth', 'role:buyer,seller'])->group(function () {
+    Route::get('/', [CartController::class, 'index'])->name('cart');
+    Route::post('/', [CartController::class, 'store'])->name('cart.store');
+    Route::delete('/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
+  });
+});
+
+Route::prefix('admin')->group(function() {
+  Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/', AdminController::class)->name('admin');
+    Route::get('/users', [UserController::class, 'index'])->name('admin.user');
+    Route::get('/users/create', [UserController::class, 'create'])->name('admin.user.create');
+    Route::post('/users/create', [UserController::class, 'store'])->name('admin.user.store');
+    Route::patch('/users', [UserController::class, 'update'])->name('admin.update');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
+    Route::get('/products', [ProdukController::class, 'index'])->name('admin.product');
+  });
 });
 
 Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');

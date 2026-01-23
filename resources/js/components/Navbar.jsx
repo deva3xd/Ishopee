@@ -12,7 +12,7 @@ const Navbar = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    get(route('home'), data, {
+    get(route('product'), data, {
       preserveState: true,
     });
   }
@@ -24,7 +24,7 @@ const Navbar = () => {
   return (
     <div className="shadow-sm bg-primary w-screen fixed top-0 z-50">
       <div className="max-w-screen-xl mx-auto navbar p-4 flex items-center justify-between">
-        <Link href={route('home')} className="text-4xl font-semibold text-white">ishopee</Link>
+        <Link href={route('product')} className="text-4xl font-semibold text-white">ishopee</Link>
 
         {/* hammburger button */}
         <div className="flex lg:hidden text-white">
@@ -55,7 +55,7 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center gap-2">
           {auth.user ? (
             <>
-              <Link href={route('admin.dashboard')} className="btn btn-ghost p-2 rounded-full text-white border-none hover:bg-white hover:text-primary">
+              <Link href={route('admin')} className="btn btn-ghost p-2 rounded-full text-white border-none hover:bg-white hover:text-primary">
                 <div className="flex items-center gap-1">
                   <Store />
                 </div>
@@ -108,7 +108,7 @@ const Navbar = () => {
           {auth.user ? (
             <>
               <li>
-                <Link href={route('admin.dashboard')} className="block py-2 text-sm hover:underline font-medium">Shop</Link>
+                <Link href={route('admin')} className="block py-2 text-sm hover:underline font-medium">Shop</Link>
               </li>
               <li>
                 <Link href={route('cart')} className="block py-2 text-sm hover:underline font-medium">Profile</Link>
