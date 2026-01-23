@@ -5,8 +5,14 @@ const Detail = ({ product, relatedProducts }) => {
   return (
     <MainLayout title="Detail">
       <div className="flex flex-col sm:flex-row w-full bg-white rounded-xl p-8 sm:p-12 gap-2">
-        <div className="flex justify-center w-full">
-          <img src={product.image} alt="Product" className="w-52 sm:w-60 border-2 border-primary p-2 rounded-sm" />
+        <div className="flex justify-center">
+          <div className="w-52 sm:w-60 aspect-[4/5] border-2 border-primary p-2 rounded-sm overflow-hidden">
+            <img
+              src={product.image}
+              alt="Product"
+              className="w-full h-full object-contain"
+            />
+          </div>
         </div>
         <div className="flex gap-y-2 flex-col justify-center">
           <h1 className="text-2xl sm:text-3xl font-bold">{product.name}</h1>
@@ -34,7 +40,7 @@ const Detail = ({ product, relatedProducts }) => {
         </div>
       </div>
       <div className="border border-primary my-2"></div>
-      <div className="bg-white mb-2 p-2">
+      <div className="bg-white mb-2 p-4">
         <h3 className="text-xl font-normal py-2">Related Products</h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2">
           <ProductCard products={relatedProducts} />

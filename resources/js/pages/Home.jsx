@@ -20,7 +20,7 @@ const Home = ({ results, categories, carts }) => {
 
   return (
     <MainLayout title="Home">
-      <div className="mb-2 bg-white p-2">
+      <div className="mb-2 bg-white p-4">
         <div className="w-full border-b-2 border-primary">
           <h2 className="text-primary font-medium text-xl">Product</h2>
         </div>
