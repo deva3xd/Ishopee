@@ -48,7 +48,7 @@ const Register = () => {
                 </fieldset>
                 <button className="btn text-white bg-primary hover:brightness-95 w-full mt-4">SUBMIT</button>
               </form>
-              <Link href={route('home')} className="flex items-center hover:underline text-gray-600 text-sm mt-2 w-1/4"><span className="me-1">&lt;</span>Homepage</Link>
+              <Link href={route('product')} className="flex items-center hover:underline text-gray-600 text-sm mt-2 w-1/4"><span className="me-1">&lt;</span>Homepage</Link>
             </div>
           </div>
         </div>

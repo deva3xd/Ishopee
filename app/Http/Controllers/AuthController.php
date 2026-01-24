@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use App\Models\User;
@@ -26,9 +25,9 @@ class AuthController extends Controller
             $user = Auth::user();
 
             if (in_array($user->role, ['buyer', 'seller'])) {
-                return redirect()->route('home');
+                return redirect()->route('product');
             } else {
-                return redirect()->route('admin.dashboard');
+                return redirect()->route('admin');
             }
         }
 

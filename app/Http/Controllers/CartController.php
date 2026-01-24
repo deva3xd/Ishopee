@@ -15,9 +15,10 @@ class CartController extends Controller
         $items = OrderItem::with(['product'])->whereHas('order.user', function ($query) {
             $query->where('user_id', Auth::id());
         })->get();
+        
         return Inertia::render('Cart', compact('items'));
     }
-// $cartCount = Cart::where('user_id', Auth::id())->count();
+
     public function store(Request $request)
     {
         $validate = $request->validate([
@@ -43,7 +44,7 @@ class CartController extends Controller
             ]);
         }
 
-        return redirect()->route('home')->with('success', 'Data Added');
+        return redirect()->back()->with('success', 'Data Added');
     }
 
     public function destroy($id)
