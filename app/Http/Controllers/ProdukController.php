@@ -36,11 +36,8 @@ class ProdukController extends Controller
 
         $results = ProductResource::collection($product->paginate(18));
         $categories = CategoryResource::collection(Category::all());
-        $carts = OrderItem::with(['product'])->whereHas('order.user', function ($query) {
-            $query->where('user_id', Auth::id());
-        })->get();
 
-        return Inertia::render('Home', compact('results', 'categories', 'carts'));
+        return Inertia::render('Home', compact('results', 'categories'));
     }
 
     public function show($id)
@@ -51,8 +48,14 @@ class ProdukController extends Controller
             ->with(['profile', 'category'])
             ->limit(6)
             ->get();
+        $cart = OrderItem::whereHas('order', function ($query) use ($id) {
+            $query->where('user_id', Auth::id())
+                ->where('status', 'cart');
+        })
+            ->where('product_id', $id)
+            ->first();
 
-        return Inertia::render('Detail', compact('product', 'relatedProducts'));
+        return Inertia::render('Detail', compact('product', 'relatedProducts', 'cart'));
     }
 
     public function a()

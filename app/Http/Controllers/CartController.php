@@ -25,9 +25,8 @@ class CartController extends Controller
             'product_id' => 'required|integer',
             'quantity' => 'required|integer|min:1',
         ]);
-        $user = Auth::user();
         $order = Order::firstOrCreate(
-            ['user_id' => $user->id, 'status' => 'cart'],
+            ['user_id' => Auth::id(), 'status' => 'cart'],
             ['total_price' => 0]
         );
         $item = OrderItem::where('order_id', $order->id)
