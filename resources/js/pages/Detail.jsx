@@ -2,6 +2,7 @@ import { useForm } from "@inertiajs/react";
 import { useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import ProductCard from "../components/ProductCard";
+import useCount from "../stores/useCount";
 
 const Detail = ({ product, relatedProducts, cart }) => {
   const [alert, setAlert] = useState(false);
@@ -9,7 +10,7 @@ const Detail = ({ product, relatedProducts, cart }) => {
     product_id: product.id,
     quantity: 1
   });
-
+console.log(data.quantity)
   const addToCart = () => {
     post(route('cart.store'), {
       onSuccess: () => {
@@ -49,7 +50,7 @@ const Detail = ({ product, relatedProducts, cart }) => {
           {!cart ? (
             <div className="flex items-center justify-end sm:justify-start my-1 gap-2">
               <div className="flex items-center gap-4">
-                <button onClick={() => setData('quantity', data.quantity - 1)} className="btn border-primary">-</button>
+                <button onClick={() => setData('quantity', Math.max(data.quantity - 1, 1))} className="btn border-primary">-</button>
                 <span className="underline text-lg">{data.quantity}</span>
                 <button onClick={() => setData('quantity', data.quantity + 1)} className="btn border-primary">+</button>
               </div>

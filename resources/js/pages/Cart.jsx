@@ -12,7 +12,7 @@ const Cart = ({ items }) => {
   const { count, inc, dec, totalQuantity, totalPrice } = useCount();
   const { selectedItem, closeModal } = useToggleModal();
 
-  // not effective using useEffect, when item more than 50 
+  // not effective when items more than 50 
   const setPrice = useCount((s) => s.setPrice);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const Cart = ({ items }) => {
 
           {/* list product */}
           {items.length == 0 ? (
-            <div className="flex justify-center">No Items Available</div>
+            <div className="flex justify-center bg-white p-4">No Items Available</div>
           ) : (
             items.map((item) => (
               <div key={item.id} className="bg-white p-4 grid grid-cols-2 md:grid-cols-[1.5fr_3fr_0.8fr_0.8fr_1fr] gap-2 border-b">

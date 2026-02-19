@@ -2,7 +2,7 @@ const Footer = () => {
   return (
     <footer className="w-screen">
       <div className="bg-primary p-4">
-        <div className="footer text-primary-content sm:footer-horizontal max-w-screen-xl mx-auto navbar">
+        <div className="footer text-primary-content sm:footer-horizontal max-w-screen-xl mx-auto">
           <nav>
             <span className="footer-title">Services</span>
             <a className="link link-hover">Branding</a>
