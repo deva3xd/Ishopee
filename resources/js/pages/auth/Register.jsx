@@ -5,7 +5,7 @@ import { Link, useForm } from "@inertiajs/react";
 
 const Register = () => {
   const { data, setData, post, errors } = useForm({
-    username: '',
+    name: '',
     email: '',
     password: ''
   });
@@ -32,9 +32,9 @@ const Register = () => {
               </div>
               <form onSubmit={handleSubmit}>
                 <fieldset className="fieldset pb-2">
-                  <legend className="fieldset-legend py-0 font-light">username</legend>
-                  <input type="text" id="username" name="username" value={data.username} onChange={(e) => setData("username", e.target.value)} className="input w-full border-x-0 border-t-0 border-b rounded-none px-0 focus-within:outline-none focus-within:border-b-black" required />
-                  {errors.username && <p className="label text-red-600">{errors.username}</p>}
+                  <legend className="fieldset-legend py-0 font-light">name</legend>
+                  <input type="text" id="name" name="name" value={data.name} onChange={(e) => setData("name", e.target.value)} className="input w-full border-x-0 border-t-0 border-b rounded-none px-0 focus-within:outline-none focus-within:border-b-black" required />
+                  {errors.name && <p className="label text-red-600">{errors.name}</p>}
                 </fieldset>
                 <fieldset className="fieldset pb-2">
                   <legend className="fieldset-legend py-0 font-light">email</legend>

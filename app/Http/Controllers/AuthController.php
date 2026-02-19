@@ -21,14 +21,16 @@ class AuthController extends Controller
         $validated = $request->validated();
 
         if (Auth::attempt($validated)) {
-            $request->session()->regenerate();
             $user = Auth::user();
 
-            if (in_array($user->role, ['buyer', 'seller'])) {
-                return redirect()->route('product');
-            } else {
-                return redirect()->route('admin');
+            if (!in_array($user->role, ['buyer', 'seller'])) {
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'Incorrect email or password.',
+                ]);
             }
+
+            return redirect()->route('product');
         }
 
         return back()->withErrors([
@@ -44,7 +46,7 @@ class AuthController extends Controller
     public function registerStore(RegisterRequest $request)
     {
         $validated = $request->validated();
-        $user  = User::create($validated);
+        $user = User::create($validated);
         event(new UserRegistered($user));
 
         return redirect()->route('login')->with('success', 'Data Added');
